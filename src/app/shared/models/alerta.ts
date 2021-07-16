@@ -6,4 +6,5 @@ export interface Alerta {
   corBtnSucesso?: string;
   corBtnCancelar?: string;
   possuirBtnFechar?: boolean;
+  corBtn?: string;
 }

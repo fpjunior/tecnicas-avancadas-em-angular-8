@@ -27,26 +27,26 @@ export class VisualizarFilmesComponent implements OnInit {
   }
 
   editar(): void {
-    this.router.navigateByUrl('/filmes/cadastro/' + this.id);
+    this.router.navigateByUrl('/filmes/cadastro/' + this.id)
   }
 
   excluir(): void {
-    const config = {
-      data: {
-        titulo: 'Você tem certeza que deseja excluir?',
-        descricao: 'Caso você tenha certceza que deseja excluir, clique no botão OK',
-        corBtnCancelar: 'primary',
-        corBtnSucesso: 'warn',
-        possuirBtnFechar: true
-      } as Alerta
-    };
-    const dialogRef = this.dialog.open(AlertaComponent, config);
-    dialogRef.afterClosed().subscribe((opcao: boolean) => {
-      if (opcao) {
-        this.filmesService.excluir(this.id)
-        .subscribe(() => this.router.navigateByUrl('/filmes'));
+      const config = {
+        data: {
+          titulo: "você tem certeza que deseja excluir?",
+          descricao: "Caso você tenha certeza que deseja excluir, clique no botão Ok",
+          corBtnCancelar: 'primary',
+          corBtnSucesso: 'warn',
+          possuirBtnFechar: true,
+        } as Alerta
       }
-    });
+      const dialogRef = this.dialog.open(AlertaComponent, config);
+      dialogRef.afterClosed().subscribe((opcao: boolean) => {
+        if (opcao) {
+          this.filmesService.excluir(this.id)
+          .subscribe(()=> this.router.navigateByUrl('/filmes'));
+        }
+      });
   }
 
   private visualizar(): void {

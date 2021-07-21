@@ -1,6 +1,5 @@
 import { CampoGenerico } from './campo-generico';
-
-export interface ConfigPrams {
+export interface ConfigParams {
   pagina?: number;
   limite?: number;
   pesquisa?: string;

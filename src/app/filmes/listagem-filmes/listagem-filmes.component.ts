@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { FilmesService } from 'src/app/core/filmes.service';
 import { Filme } from 'src/app/shared/models/filme';
-import { ConfigPrams } from 'src/app/shared/models/config-prams';
+import { ConfigParams } from 'src/app/shared/models/config-params';
+import { CampoGenerico } from 'src/app/shared/models/campo-generico';
 
 @Component({
   selector: 'dio-listagem-filmes',
@@ -14,17 +15,17 @@ import { ConfigPrams } from 'src/app/shared/models/config-prams';
 export class ListagemFilmesComponent implements OnInit {
   readonly semFoto = 'https://www.termoparts.com.br/wp-content/uploads/2017/10/no-image.jpg';
 
-  config: ConfigPrams = {
-    pagina: 0,
-    limite: 4
-  };
+config: ConfigParams = {
+  pagina: 0,
+  limite: 4,
+};
   filmes: Filme[] = [];
   filtrosListagem: FormGroup;
   generos: Array<string>;
 
   constructor(private filmesService: FilmesService,
-              private fb: FormBuilder,
-              private router: Router) { }
+    private fb: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.filtrosListagem = this.fb.group({
@@ -35,14 +36,27 @@ export class ListagemFilmesComponent implements OnInit {
     this.filtrosListagem.get('texto').valueChanges
     .pipe(debounceTime(400))
     .subscribe((val: string) => {
+      console.log('teste', val)
       this.config.pesquisa = val;
       this.resetarConsulta();
-    });
+    })
 
     this.filtrosListagem.get('genero').valueChanges.subscribe((val: string) => {
-      this.config.campo = {tipo: 'genero', valor: val};
+      console.log('teste', val)
+      this.config.campo = {tipo: 'genero', valor: val} as CampoGenerico;
       this.resetarConsulta();
-    });
+    })
+    // this.filtrosListagem.get('texto').valueChanges
+    // .pipe(debounceTime(400))
+    // .subscribe((val: string) => {
+    //   this.config.pesquisa = val;
+    //   this.resetarConsulta();
+    // });
+
+    // this.filtrosListagem.get('genero').valueChanges.subscribe((val: string) => {
+    //   this.config.campo = {tipo: 'genero', valor: val};
+    //   this.resetarConsulta();
+    // });
 
     this.generos = ['Ação', 'Romance', 'Aventura', 'Terror', 'Ficção cientifica', 'Comédia', 'Aventura', 'Drama'];
 
@@ -53,8 +67,9 @@ export class ListagemFilmesComponent implements OnInit {
     this.listarFilmes();
   }
 
-  abrir(id: number): void {
+  abrir(id: number, event): void {
     this.router.navigateByUrl('/filmes/' + id);
+    console.log(event)
   }
 
   private listarFilmes(): void {

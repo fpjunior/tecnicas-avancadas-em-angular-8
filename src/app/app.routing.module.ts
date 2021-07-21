@@ -19,6 +19,7 @@ const routes: Routes = [
         path: '',
         component: ListagemFilmesComponent
       },
+
       {
         path: 'cadastro',
         children: [
